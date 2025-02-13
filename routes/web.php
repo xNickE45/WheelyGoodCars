@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\MultiStepFormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,15 @@ use App\Http\Controllers\CarController;
 
 
 
-Route::get('/', [CarController::class, 'index'])->name('cars.index');
-Route::get('/cars/create-step1', [CarController::class, 'createStep1'])->name('cars.create-step1');
-Route::post('/cars/create-step1', [CarController::class, 'postCreateStep1'])->name('cars.post-create-step1');
-Route::get('/cars/create-step2', [CarController::class, 'createStep2'])->name('cars.create-step2');
-Route::post('/cars/create-step2', [CarController::class, 'postCreateStep2'])->name('cars.post-create-step2');
-Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [CarController::class, 'index'])->name('cars.index');
+    Route::get('/cars/create', [MultiStepFormController::class, 'showStep1'])->name('cars.step1');
+    Route::post('/cars/create', [MultiStepFormController::class, 'postStep1'])->name('cars.step1.post');
+    Route::get('/cars/create/details', [MultiStepFormController::class, 'showStep2'])->name('cars.step2');
+    Route::post('/cars/create/details', [MultiStepFormController::class, 'postStep2'])->name('cars.step2.post');
+    Route::get('/cars/{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
+    Route::put('/cars/{car}', [CarController::class, 'update'])->name('cars.update');
+    Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
+});
 
 Auth::routes();
