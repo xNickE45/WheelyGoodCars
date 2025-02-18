@@ -9,10 +9,20 @@ class CarController extends Controller
 {
     public function index()
     {
-        $cars = Car::where('user_id', auth()->id())->get();
+        $cars = Car::all();
         return view('cars.index', compact('cars'));
     }
 
+    public function show()
+    {
+        $cars = Car::where('user_id', auth()->id())->get();
+        return view('cars.show', compact('cars'));
+    }
+
+    public function detail(Car $car)
+    {
+        return view('cars.detail', compact('car'));
+    }
 
     public function edit(Car $car)
     {
@@ -28,16 +38,24 @@ class CarController extends Controller
             'model' => 'required',
             'price' => 'required|numeric',
             'mileage' => 'required|integer',
+            'seats' => 'nullable|integer',
+            'doors' => 'nullable|integer',
+            'production_year' => 'nullable|integer',
+            'weight' => 'nullable|integer',
+            'color' => 'nullable',
+            'image' => 'nullable|image',
+            'sold_at' => 'nullable|date',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $car->update($request->all());
 
-        return redirect()->route('cars.index')->with('success', 'Car updated successfully.');
+        return redirect()->route('cars.show')->with('success', 'Car updated successfully.');
     }
 
     public function destroy(Car $car)
     {
         $car->delete();
-        return redirect()->route('cars.index')->with('success', 'Car deleted successfully.');
+        return redirect()->route('cars.show')->with('success', 'Car deleted successfully.');
     }
 }

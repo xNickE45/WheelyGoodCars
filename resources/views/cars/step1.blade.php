@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Enter License Plate</h1>
+    <a href="{{ route('cars.index') }}" class="btn btn-primary mb-3">Back</a>
     <form action="{{ route('cars.step1.post') }}" method="POST">
         @csrf
         <div class="form-group">

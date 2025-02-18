@@ -44,6 +44,13 @@ class MultiStepFormController extends Controller
             'model' => 'required',
             'price' => 'required|numeric',
             'mileage' => 'required|integer',
+            'seats' => 'nullable|integer',
+            'doors' => 'nullable|integer',
+            'production_year' => 'nullable|integer',
+            'weight' => 'nullable|integer',
+            'color' => 'nullable',
+            'image' => 'nullable|image',
+            'sold_at' => 'nullable|date',
         ]);
 
         Car::create([
@@ -53,6 +60,13 @@ class MultiStepFormController extends Controller
             'model' => $request->model,
             'price' => $request->price,
             'mileage' => $request->mileage,
+            'seats' => $request->seats,
+            'doors' => $request->doors,
+            'production_year' => $request->production_year,
+            'weight' => $request->weight,
+            'color' => $request->color,
+            'image' => $request->image,
+            'sold_at' => $request->sold_at,
             'user_id' => auth()->id(),
         ]);
 

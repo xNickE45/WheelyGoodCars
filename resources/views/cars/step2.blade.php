@@ -1,3 +1,4 @@
+<!-- filepath: /C:/laragon/www/WheelyGoodCars/resources/views/cars/step2.blade.php -->
 @extends('layouts.app')
 
 @section('content')
@@ -8,15 +9,15 @@
         <input type="hidden" name="license_plate" value="{{ $carData['kenteken'] }}">
         <div class="form-group">
             <label for="make">Make</label>
-            <input type="text" name="make" class="form-control" value="{{ $carData['merk'] }}" required>
+            <input type="text" name="make" class="form-control" value="{{ $carData['merk'] }}" readonly>
         </div>
         <div class="form-group">
             <label for="brand">Brand</label>
-            <input type="text" name="brand" class="form-control" value="{{ $carData['handelsbenaming'] }}" required>
+            <input type="text" name="brand" class="form-control" value="{{ $carData['handelsbenaming'] }}" readonly>
         </div>
         <div class="form-group">
             <label for="model">Model</label>
-            <input type="text" name="model" class="form-control" value="{{ $carData['variant'] }}" required>
+            <input type="text" name="model" class="form-control" value="{{ $carData['variant'] }}" readonly>
         </div>
         <div class="form-group">
             <label for="price">Price</label>
@@ -26,7 +27,37 @@
             <label for="mileage">Mileage</label>
             <input type="number" name="mileage" class="form-control" required>
         </div>
+        <div class="form-group">
+            <label for="seats">Seats</label>
+            <input type="number" name="seats" class="form-control" value="{{ $carData['aantal_zitplaatsen'] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="doors">Doors</label>
+            <input type="number" name="doors" class="form-control" value="{{ $carData['aantal_deuren'] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="production_year">Production Year</label>
+            <input type="number" name="production_year" class="form-control" value="{{ $carData['datum_eerste_toelating'] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight</label>
+            <input type="number" name="weight" class="form-control" value="{{ $carData['massa_ledig_voertuig'] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="text" name="color" class="form-control" value="{{ $carData['eerste_kleur'] }}" readonly>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 @endsection
+
+<style>
+    .form-control[readonly] {
+        background-color: #3d3d3d6c;
+
+    }
+    .form-control[readonly]:focus {
+        background-color: #3d3d3d6c;
+    }
+</style>

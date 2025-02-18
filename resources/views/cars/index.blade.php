@@ -1,42 +1,27 @@
-<!-- filepath: /C:/laragon/www/WheelyGoodCars/resources/views/cars/index.blade.php -->
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h1>My Cars</h1>
-    <a href="{{ route('cars.step1') }}" class="btn btn-primary mb-3">Add New Car</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>License Plate</th>
-                <th>Make</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Price</th>
-                <th>Mileage</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($cars as $car)
-            <tr>
-                <td>{{ $car->license_plate }}</td>
-                <td>{{ $car->make }}</td>
-                <td>{{ $car->brand }}</td>
-                <td>{{ $car->model }}</td>
-                <td>{{ $car->price }}</td>
-                <td>{{ $car->mileage }}</td>
-                <td>
-                    <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-warning">Edit</a>
-                    <form action="{{ route('cars.destroy', $car->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <h1>All Cars</h1>
+    <a href="{{ route('cars.show') }}" class="btn btn-primary mb-3">Manage My Cars</a>
+    <div class="row">
+        @foreach($cars as $car)
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $car->make }} {{ $car->model }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ $car->brand }}</h6>
+                    <p class="card-text">
+                        <strong>License Plate:</strong> {{ $car->license_plate }}<br>
+                        <strong>Price:</strong> ${{ $car->price }}<br>
+                        <strong>Mileage:</strong> {{ $car->mileage }} km<br>
+                        <strong>Seller:</strong> {{ $car->user->name }}
+                    </p>
+                    <a href="{{ route('cars.detail', $car->id) }}" class="btn btn-info">View Details</a>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
 </div>
 @endsection

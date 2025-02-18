@@ -16,9 +16,10 @@ use App\Http\Controllers\MultiStepFormController;
 */
 
 
+Route::get('/', [CarController::class, 'index'])->name('cars.index');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [CarController::class, 'index'])->name('cars.index');
+    Route::get('/my-cars', [CarController::class, 'show'])->name('cars.show');
     Route::get('/cars/create', [MultiStepFormController::class, 'showStep1'])->name('cars.step1');
     Route::post('/cars/create', [MultiStepFormController::class, 'postStep1'])->name('cars.step1.post');
     Route::get('/cars/create/details', [MultiStepFormController::class, 'showStep2'])->name('cars.step2');
@@ -27,5 +28,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/cars/{car}', [CarController::class, 'update'])->name('cars.update');
     Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
 });
-
+Route::get('/cars/{car}', [CarController::class, 'detail'])->name('cars.detail');
 Auth::routes();
