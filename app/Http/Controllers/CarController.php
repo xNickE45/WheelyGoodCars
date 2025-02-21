@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CarController extends Controller
 {
@@ -57,5 +58,11 @@ class CarController extends Controller
     {
         $car->delete();
         return redirect()->route('cars.show')->with('success', 'Car deleted successfully.');
+    }
+
+    public function generatePdf(Car $car)
+    {
+        $pdf = Pdf::loadView('cars.pdf', compact('car'));
+        return $pdf->download('car-details.pdf');
     }
 }

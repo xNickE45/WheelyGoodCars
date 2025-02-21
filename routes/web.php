@@ -29,4 +29,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
 });
 Route::get('/cars/{car}', [CarController::class, 'detail'])->name('cars.detail');
+Route::get('/cars/{car}/pdf', [CarController::class, 'generatePdf'])->name('cars.pdf');
 Auth::routes();
