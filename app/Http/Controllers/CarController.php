@@ -14,9 +14,9 @@ class CarController extends Controller
         return view('cars.index', compact('cars'));
     }
 
-    public function show()
+    public function show(Car $car)
     {
-        $cars = Car::where('user_id', auth()->id())->get();
+        $cars = Car::with('user')->where('user_id', auth()->id())->get();
         return view('cars.show', compact('cars'));
     }
 
@@ -43,15 +43,14 @@ class CarController extends Controller
             'doors' => 'nullable|integer',
             'production_year' => 'nullable|integer',
             'weight' => 'nullable|integer',
-            'color' => 'nullable',
+            'color' => 'nullable|string',
             'image' => 'nullable|image',
             'sold_at' => 'nullable|date',
-            'user_id' => 'required|exists:users,id',
         ]);
 
         $car->update($request->all());
 
-        return redirect()->route('cars.show')->with('success', 'Car updated successfully.');
+        return redirect()->route('cars.show',)->with('success', 'Car updated successfully.');
     }
 
     public function destroy(Car $car)

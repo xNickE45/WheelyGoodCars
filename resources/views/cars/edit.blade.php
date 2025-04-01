@@ -9,19 +9,19 @@
         @method('PUT')
         <div class="form-group">
             <label for="license_plate">License Plate</label>
-            <input type="text" name="license_plate" class="form-control" value="{{ $car->license_plate }}" readonly>
+            <input type="text" name="license_plate" class="form-control" value="{{ $car->license_plate }}" required>
         </div>
         <div class="form-group">
             <label for="make">Make</label>
-            <input type="text" name="make" class="form-control" value="{{ $car->make }}" readonly>
+            <input type="text" name="make" class="form-control" value="{{ $car->make }}" required>
         </div>
         <div class="form-group">
             <label for="brand">Brand</label>
-            <input type="text" name="brand" class="form-control" value="{{ $car->brand }}" readonly>
+            <input type="text" name="brand" class="form-control" value="{{ $car->brand }}" required>
         </div>
         <div class="form-group">
             <label for="model">Model</label>
-            <input type="text" name="model" class="form-control" value="{{ $car->model }}" readonly>
+            <input type="text" name="model" class="form-control" value="{{ $car->model }}" required>
         </div>
         <div class="form-group">
             <label for="price">Price</label>
@@ -33,35 +33,26 @@
         </div>
         <div class="form-group">
             <label for="seats">Seats</label>
-            <input type="number" name="seats" class="form-control" value="{{ $car->seats }}" readonly>
+            <input type="number" name="seats" class="form-control" value="{{ $car->seats }}" required>
         </div>
         <div class="form-group">
             <label for="doors">Doors</label>
-            <input type="number" name="doors" class="form-control" value="{{ $car->doors }}" readonly>
+            <input type="number" name="doors" class="form-control" value="{{ $car->doors }}" required>
         </div>
         <div class="form-group">
             <label for="production_year">Production Year</label>
-            <input type="number" name="production_year" class="form-control" value="{{ $car->production_year }}" readonly>
+            <input type="number" name="production_year" class="form-control" value="{{ $car->production_year }}" required>
         </div>
         <div class="form-group">
             <label for="weight">Weight</label>
-            <input type="number" name="weight" class="form-control" value="{{ $car->weight }}" readonly>
+            <input type="number" name="weight" class="form-control" value="{{ $car->weight }}" required>
         </div>
         <div class="form-group">
             <label for="color">Color</label>
-            <input type="text" name="color" class="form-control" value="{{ $car->color }}" readonly>
+            <input type="text" name="color" class="form-control" value="{{ $car->color }}" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
 @endsection
 
-<style>
-    .form-control[readonly] {
-        background-color: #3d3d3d6c;
-
-    }
-    .form-control[readonly]:focus {
-        background-color: #3d3d3d6c;
-    }
-</style>

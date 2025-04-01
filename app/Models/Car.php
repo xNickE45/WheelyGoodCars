@@ -23,7 +23,6 @@ class Car extends Model
         'color',
         'image',
         'sold_at',
-        'views',
         'user_id',
     ];
 
