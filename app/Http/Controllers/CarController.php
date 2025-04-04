@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Carbon;
 
 class CarController extends Controller
 {
@@ -22,6 +23,7 @@ class CarController extends Controller
 
     public function detail(Car $car)
     {
+        $car->increment('views');
         return view('cars.detail', compact('car'));
     }
 
@@ -48,7 +50,17 @@ class CarController extends Controller
             'sold_at' => 'nullable|date',
         ]);
 
-        $car->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            if ($car->image) {
+                \Storage::disk('public')->delete($car->image);
+            }
+
+            $data['image'] = $request->file('image')->store('car_images', 'public');
+        }
+
+        $car->update($data);
 
         return redirect()->route('cars.show',)->with('success', 'Car updated successfully.');
     }
@@ -63,5 +75,14 @@ class CarController extends Controller
     {
         $pdf = Pdf::loadView('cars.pdf', compact('car'));
         return $pdf->download('car-details.pdf');
+    }
+
+    public function markAsSold($id)
+    {
+        $car = Car::findOrFail($id);
+        $car->sold_at = Carbon::now();
+        $car->save();
+
+        return redirect()->route('cars.index')->with('success', 'Car marked as sold successfully.');
     }
 }

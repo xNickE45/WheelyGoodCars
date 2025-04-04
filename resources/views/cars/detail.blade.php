@@ -7,6 +7,9 @@
     <h1>Car Details</h1>
     <a href="{{ route('cars.index') }}" class="btn btn-primary mb-3">Back</a>
     <div class="card">
+        @if($car->image)
+            <img src="{{ asset('storage/' . $car->image) }}" class="card-img-top" alt="Car Image">
+        @endif
         <div class="card-body">
             <h5 class="card-title">{{ $car->make }} {{ $car->model }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ $car->brand }}</h6>
@@ -19,7 +22,7 @@
                 <strong>Production Year:</strong> {{ $car->production_year }}<br>
                 <strong>Weight:</strong> {{ $car->weight }} kg<br>
                 <strong>Color:</strong> {{ $car->color }}<br>
-                <strong>Seller:</strong> {{ $car->user->name }}
+                <strong>Seller:</strong> {{ $car->user->name }}<br>
                 @if($car->user->isSuspicious())
                     <span class="text-warning" title="Suspicious Seller">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
@@ -28,8 +31,19 @@
                         </svg>
                     </span>
                 @endif
+                <strong>Sold At:</strong> {{ $car->sold_at }}
             </p>
         </div>
     </div>
 </div>
 @endsection
+
+
+<style>
+    .card-img-top {
+        max-width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+    }
+</style>

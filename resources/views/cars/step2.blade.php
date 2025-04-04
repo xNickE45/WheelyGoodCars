@@ -1,11 +1,14 @@
-<!-- filepath: /C:/laragon/www/WheelyGoodCars/resources/views/cars/step2.blade.php -->
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <h1>Complete Car Details</h1>
     <form action="{{ route('cars.step2.post') }}" method="POST">
         @csrf
+        <div class="progress mb-4">
+            <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100">
+                Step {{ $currentStep }} of 3
+            </div>
+        </div>
         <input type="hidden" name="license_plate" value="{{ $carData['kenteken'] }}">
         <div class="form-group">
             <label for="make">Make</label>
@@ -47,7 +50,7 @@
             <label for="color">Color</label>
             <input type="text" name="color" class="form-control" value="{{ $carData['eerste_kleur'] }}" readonly>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Next</button>
     </form>
 </div>
 @endsection

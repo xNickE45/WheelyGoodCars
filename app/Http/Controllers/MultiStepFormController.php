@@ -10,7 +10,7 @@ class MultiStepFormController extends Controller
 {
     public function showStep1()
     {
-        return view('cars.step1');
+        return view('cars.step1', ['progress' => 33, 'currentStep' => 1]);
     }
 
     public function postStep1(Request $request)
@@ -24,6 +24,7 @@ class MultiStepFormController extends Controller
 
         if ($response->successful() && count($response->json()) > 0) {
             $carData = $response->json()[0];
+            $carData['license_plate'] = $licensePlate;
             return redirect()->route('cars.step2')->with('carData', $carData);
         } else {
             return back()->withErrors(['license_plate' => 'Car not found.']);
@@ -33,7 +34,7 @@ class MultiStepFormController extends Controller
     public function showStep2()
     {
         $carData = session('carData');
-        return view('cars.step2', compact('carData'));
+        return view('cars.step2', ['carData' => $carData, 'progress' => 66, 'currentStep' => 2]);
     }
 
     public function postStep2(Request $request)
@@ -53,23 +54,35 @@ class MultiStepFormController extends Controller
             'sold_at' => 'nullable|date',
         ]);
 
-        Car::create([
-            'license_plate' => $request->license_plate,
-            'make' => $request->make,
-            'brand' => $request->brand,
-            'model' => $request->model,
-            'price' => $request->price,
-            'mileage' => $request->mileage,
-            'seats' => $request->seats,
-            'doors' => $request->doors,
-            'production_year' => $request->production_year,
-            'weight' => $request->weight,
-            'color' => $request->color,
-            'image' => $request->image,
-            'sold_at' => $request->sold_at,
-            'user_id' => auth()->id(),
-        ]);
+        $carData = session('carData', []);
+        $carData = array_merge($carData, $request->except('_token'));
+        session(['carData' => $carData]);
 
-        return redirect()->route('cars.index')->with('success', 'Car created successfully.');
+
+        return redirect()->route('cars.step3');
     }
+
+    public function showStep3()
+{
+    return view('cars.step3', ['progress' => 100, 'currentStep' => 3]);
+}
+
+public function postStep3(Request $request)
+{
+    $request->validate([
+        'image' => 'required|image',
+    ]);
+
+    $imagePath = $request->file('image')->store('car_images', 'public');
+
+    $carData = session('carData');
+    $carData['image'] = $imagePath;
+    session(['carData' => $carData]);
+
+    Car::create(array_merge($carData, ['user_id' => auth()->id()]));
+
+    session()->forget('carData');
+
+    return redirect()->route('cars.index')->with('success', 'Car created successfully.');
+}
 }
